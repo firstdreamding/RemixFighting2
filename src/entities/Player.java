@@ -16,17 +16,19 @@ public class Player extends Entity {
 	public Player(int x, int y, int w, int h, Texture s, int dir, int totalJumps, int jabLength, int jumpLength) {
 		super(x, y, w, h, s);
 		this.dir = dir;
-		this.jabLength=jabLength;
-		this.jumpLength=jumpLength;
-		this.totalJumps=totalJumps;
-		jumps=totalJumps;
+		this.jabLength = jabLength;
+		this.jumpLength = jumpLength;
+		this.totalJumps = totalJumps;
+		jumps = totalJumps;
 		// TODO Auto-generated constructor stub
 	}
 
 	public void update() {
 		x = x + xvel;
 		y = y + yvel;
-
+		if (!inAir) {
+			jumps = totalJumps;
+		}
 	}
 
 	public void lessJump() {
@@ -36,10 +38,13 @@ public class Player extends Entity {
 	public int getSpecialbar() {
 		return specialbar;
 	}
-	public void jump(int i){
+
+	public void jump(int i) {
 		setYvel(-i);
 		jumps--;
+		setInAir(true);
 	}
+
 	public void setSpecialbar(int specialbar) {
 		this.specialbar = specialbar;
 	}

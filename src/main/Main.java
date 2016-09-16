@@ -21,8 +21,7 @@ public class Main {
 	Texture t = new Texture("/res/penguin.png", 800, 800);
 	SpriteSheet tp = new SpriteSheet(t, 160, 160);
 
-	Player p1 = new Player(50, 0, 200, 50, tp.getTexture(0
-			, 0), 1,2,450,450);
+	Player p1 = new Player(50, 0, 160, 160, tp.getTexture(0, 0), 1, 2, 450, 450);
 	Texture bg = new Texture("/res/bg.png", 960, 540);
 
 	KeyListener mainListen = new KeyAdapter() {
@@ -30,11 +29,20 @@ public class Main {
 		public void keyPressed(KeyEvent e) {
 			// TODO Auto-generated method stub
 			int in = e.getKeyCode();
-			long now=System.currentTimeMillis();
-			if (in == KeyMap.p1Up)
-				if (p1.getJumps()>0&&now>p1.getLastJumped()+p1.getJumpLength()) {
+			long now = System.currentTimeMillis();
+			if (in == KeyMap.p1Up) {
+				if (p1.getJumps() > 0 && now > p1.getLastJumped() + p1.getJumpLength()) {
 					p1.jump(9);
 				}
+			}
+			if (in == KeyMap.p1Right) {
+				p1.setDir(1);
+				p1.setXvel(10);
+			}
+			if (in == KeyMap.p1Left) {
+				p1.setDir(-1);
+				p1.setXvel(-10);
+			}
 			if (in == KeyMap.p1BasicAttack) {
 				// p1.setYvel(-9);
 				for (int i = 0; i < 5; i++) {
@@ -56,6 +64,18 @@ public class Main {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
+			int in = e.getKeyCode();
+			if (in == KeyMap.p1Left) {
+				if (p1.getDir() < 0) {
+					p1.setXvel(0);
+				}
+
+			}
+			if (in == KeyMap.p1Right) {
+				if (p1.getDir() > 0) {
+					p1.setXvel(0);
+				}
+			}
 
 		}
 
@@ -73,7 +93,7 @@ public class Main {
 	private void render(Screen screen) {
 		screen.drawTexture(0, 0, bg);
 		screen.drawTexture(p1.getX(), p1.getY(), p1.getTexture());
-		screen.drawRect(0, 526, 500, 1, 000000000);
+		screen.drawRect(0, 500, 500, 1, 000000000);
 
 	}
 
@@ -95,7 +115,7 @@ public class Main {
 
 			window.update();
 			// p1.setY(535);
-			
+
 			Thread.sleep(dx);
 
 		}
