@@ -21,7 +21,6 @@ public class Main {
 
 	}
 
-	ClassLoader cl = getClass().getClassLoader();
 	Texture t = new Texture("/res/penguin.png", 800, 800);
 	SpriteSheet tp = new SpriteSheet(t, 160, 160);
 
