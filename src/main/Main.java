@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -25,8 +26,8 @@ public class Main {
 	SpriteSheet tp = new SpriteSheet(t, 160, 160);
 
 	Player p1 = new Player(50, 0, 160, 160, tp.getTexture(0, 0), 1, 2, 450, 450);
-	Texture bg = new Texture("/res/bg.png", 960, 540);
-	
+	Texture bg = new Texture("/res/stage1.png", 960, 540);
+
 	private List<GameCharacter> characters = new ArrayList<GameCharacter>();
 
 	KeyListener mainListen = new KeyAdapter() {
@@ -94,20 +95,23 @@ public class Main {
 			e1.printStackTrace();
 		}
 	}
-	Texture reverse= tp.getReverse().getTexture(0, 0);
+
+	Texture reverse = tp.getReverse().getTexture(0, 0);
+
 	private void render(Screen screen) {
 		screen.drawTexture(0, 0, bg);
 		screen.drawTexture(p1.getX(), p1.getY(), p1.getTexture());
 		screen.drawRect(0, 500, 500, 1, 000000000);
+		screen.drawRect(50, 50, 206, 36, 0);
 	}
-	
-	private void loadCharacters() { 
+
+	private void loadCharacters() {
 		String basePath = "src/res/characters/";
 		for (String line : FileUtils.readLinesFromFile(basePath + "characters.txt")) {
 			characters.add(new GameCharacter(basePath + line + ".txt"));
 		}
 	}
-	
+
 	private void printCharacters() {
 		System.out.println("Characters:\n");
 		int i = 1;
@@ -124,7 +128,7 @@ public class Main {
 
 	private void loop() throws InterruptedException {
 		KeyMap.init();
-		
+
 		Window window = new Window("Game", 960, 540);
 		window.addKeyListener(mainListen);
 		window.show();
