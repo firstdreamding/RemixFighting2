@@ -101,8 +101,9 @@ public class Main {
 	private void render(Screen screen) {
 		screen.drawTexture(0, 0, bg);
 		screen.drawTexture(p1.getX(), p1.getY(), p1.getTexture());
-		screen.drawRect(0, 500, 500, 1, 000000000);
-		screen.drawRect(50, 50, 206, 36, 0);
+		//screen.drawRect(0, 500, 500, 1, 0x000000);
+		//screen.drawRect(50, 50, 256, 31, 0);
+		screen.fillRect(51, 51, 255, 30, 0);
 	}
 
 	private void loadCharacters() {
@@ -142,7 +143,7 @@ public class Main {
 
 			// screen = window.getScreen();
 			p1.update();
-			screen.clear(255255255);
+			screen.clear(0xffffff);
 			g.update();
 			this.render(screen);
 
