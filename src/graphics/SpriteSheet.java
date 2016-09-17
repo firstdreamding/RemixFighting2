@@ -1,21 +1,23 @@
 package graphics;
 
+import java.awt.image.BufferedImage;
+
 public class SpriteSheet {
-	
+
 	private int xCount, yCount;
-	
+	private Texture texture;
 	private Texture[] textures;
-	
-	//sw = sprite width
-	//sh = sprite height
-	public SpriteSheet(Texture texture, int sw, int sh){
+
+	// sw = sprite width
+	// sh = sprite height
+	public SpriteSheet(Texture texture, int sw, int sh) {
 		xCount = texture.getWidth() / sw;
 		yCount = texture.getHeight() / sh;
-		
+		this.texture = texture;
 		textures = new Texture[xCount * yCount];
 		int spriteIndex = 0;
 		int[] sheet = texture.pixels;
-		
+
 		for (int ys = 0; ys < yCount; ys++) {
 			for (int xs = 0; xs < xCount; xs++) {
 				int[] sprite = new int[sw * sh];
@@ -32,10 +34,16 @@ public class SpriteSheet {
 			}
 		}
 	}
-	
+
 	public Texture getTexture(int x, int y) {
-		if (x < 0 || x >= xCount || y < 0 || y >=yCount)
+		if (x < 0 || x >= xCount || y < 0 || y >= yCount)
 			return null;
-		
-		return textures[x + y * xCount];	}
+
+		return textures[x + y * xCount];
+	}
+
+	public SpriteSheet getReverse() {
+		BufferedImage bi = new BufferedImage(texture.getWidth(), texture.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+	}
 }
