@@ -1,6 +1,9 @@
 package entities;
 
+import java.util.Map;
+
 import graphics.Texture;
+import main.KeyMap;
 
 public class Player extends Entity {
 
@@ -12,6 +15,18 @@ public class Player extends Entity {
 	public int jumpLength;
 	public long lastAttacked = 0;
 	public long lastJumped = 0;
+	
+	private GameCharacter character;
+	private int playerID; 
+	
+	private Map<String, Integer> keys;
+	
+	public Player(GameCharacter character, int playerID) {
+		super(0, 0, 0, 0, null);
+		this.character = character;
+		this.playerID = playerID;
+		keys = KeyMap.getKeyMapping(playerID);
+	}
 
 	public Player(int x, int y, int w, int h, Texture s, int dir, int totalJumps, int jabLength, int jumpLength) {
 		super(x, y, w, h, s);
@@ -29,7 +44,19 @@ public class Player extends Entity {
 		if (!inAir) {
 			jumps = totalJumps;
 		}
+		
+		//handleInput();
 	}
+	
+	/*
+	private void handleInput() {
+		if (Input.isKeyPressed(keys.get("left")) {
+			x -= xvel;
+		} else if (Input.isKeyPressed(keys.get("right"))) {
+			x += xvel;
+		}
+	}
+	*/
 
 	public void lessJump() {
 		jumps = jumps - 1;

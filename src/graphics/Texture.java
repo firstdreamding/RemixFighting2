@@ -3,6 +3,7 @@ package graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -71,6 +72,7 @@ public class Texture {
 	private void load(String path, int w, int h) {
 		try {
 			Image i = ImageIO.read(this.getClass().getResourceAsStream(path));
+			// Image i = ImageIO.read(new File(path));
 			BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g2 = image.createGraphics();
 			g2.drawImage(i, 0, 0, w, h, null);
