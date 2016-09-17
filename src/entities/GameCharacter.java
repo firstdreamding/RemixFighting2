@@ -1,9 +1,5 @@
 package entities;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import utils.FileUtils;
@@ -28,6 +24,5 @@ public class GameCharacter {
 		speed = Integer.parseInt(lines.get(3));
 		health = Integer.parseInt(lines.get(4));
 	}
-	
 
 }

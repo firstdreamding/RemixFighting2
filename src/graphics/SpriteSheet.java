@@ -1,5 +1,7 @@
 package graphics;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 public class SpriteSheet {
@@ -7,6 +9,8 @@ public class SpriteSheet {
 	private int xCount, yCount;
 	private Texture texture;
 	private Texture[] textures;
+	private ImageFlip flip = new ImageFlip();
+	private int sw, sh;
 
 	// sw = sprite width
 	// sh = sprite height
@@ -14,6 +18,8 @@ public class SpriteSheet {
 		xCount = texture.getWidth() / sw;
 		yCount = texture.getHeight() / sh;
 		this.texture = texture;
+		this.sw = sw;
+		this.sh = sh;
 		textures = new Texture[xCount * yCount];
 		int spriteIndex = 0;
 		int[] sheet = texture.pixels;
@@ -43,7 +49,11 @@ public class SpriteSheet {
 	}
 
 	public SpriteSheet getReverse() {
+		Image reverseSheet = flip.flipH(texture.img, texture.getWidth(), texture.getHeight());
 		BufferedImage bi = new BufferedImage(texture.getWidth(), texture.getHeight(), BufferedImage.TYPE_INT_RGB);
-
+		Graphics2D g = bi.createGraphics();
+		g.drawImage(reverseSheet, 0, 0, null);
+		g.dispose();
+		return new SpriteSheet(new Texture(bi, texture.getWidth(), texture.getHeight()), sw, sh);
 	}
 }

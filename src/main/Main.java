@@ -94,12 +94,11 @@ public class Main {
 			e1.printStackTrace();
 		}
 	}
-
+	Texture reverse= tp.getReverse().getTexture(0, 0);
 	private void render(Screen screen) {
 		screen.drawTexture(0, 0, bg);
 		screen.drawTexture(p1.getX(), p1.getY(), p1.getTexture());
 		screen.drawRect(0, 500, 500, 1, 000000000);
-
 	}
 	
 	private void loadCharacters() { 
