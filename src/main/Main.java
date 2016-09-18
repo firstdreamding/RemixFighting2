@@ -28,7 +28,7 @@ public class Main {
 	Texture t = new Texture("/res/penguin.png", 800, 800);
 	SpriteSheet tp = new SpriteSheet(t, 160, 160);
 
-	Player p1 = new Player(50, 0, 120, 160, tp.getTexture(0, 0), 1, 2, 450, 450);
+	Player p1 = new Player(50, 0, 120, 160, tp.getTexture(0, 0), 1, 2, 600, 450);
 	Texture bg = new Texture("/res/stage1.png", 960, 540);
 	SoundPlayer sp = new SoundPlayer();
 	private List<GameCharacter> characters = new ArrayList<GameCharacter>();
@@ -43,37 +43,42 @@ public class Main {
 				if (p1.getJumps() > 0 && now > p1.getLastJumped() + p1.getJumpLength()) {
 					p1.jump(9);
 				}
-			}
-			if (in == KeyMap.p1Right) {
+			} else if (in == KeyMap.p1Right) {
 				p1.setDir(1);
 				p1.setXvel(10);
-			}
-			if (in == KeyMap.p1Left) {
+			} else if (in == KeyMap.p1Left) {
 				p1.setDir(-1);
 				p1.setXvel(-10);
-			}
-			if (in == KeyMap.p1BasicAttack) {
-				// p1.setYvel(-9);
+			} else if (in == KeyMap.p1BasicAttack) {
+				if (now > p1.getLastAttacked() + p1.getJabLength()) {
+				
+					p1.setLastAttacked(now);
+					try {
+						sp.play("/res/sfx/punch.wav");
+					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					for (int i = 0; i < 5; i++) {
+						p1.setT(tp.getTexture(i, 0));
+						p1.setX(p1.getX() + 5);
+						pause(40);
+					}
+					pause(50);
+					for (int i = 4; i >= 0; i--) {
+						p1.setT(tp.getTexture(i, 0));
+						p1.setX(p1.getX() - 5);
+						pause(40);
+					}
+				}
+			} else if (in == KeyMap.p1SpecialAttack) {
 				try {
-					sp.play("/res/sfx/punch.wav");
+					sp.play("/res/sfx/star.wav");
 				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				for (int i = 0; i < 5; i++) {
-					p1.setT(tp.getTexture(i, 0));
-					p1.setX(p1.getX() + 5);
-					pause(40);
-				}
-				pause(50);
-				for (int i = 4; i >= 0; i--) {
-					p1.setT(tp.getTexture(i, 0));
-					p1.setX(p1.getX() - 5);
-					pause(40);
-				}
-
 			}
-			// else if(){}
 		}
 
 		@Override
