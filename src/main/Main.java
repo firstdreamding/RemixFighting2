@@ -135,6 +135,8 @@ public class Main {
 			System.out.println("\tDefense: " + c.defenseStrength);
 			System.out.println("\tSpeed: " + c.speed);
 			System.out.println("\tHealth: " + c.health);
+			System.out.println("\tJab lag: " + c.jabLag);
+			System.out.println("\tJump lag: " + c.jumpLag);
 			System.out.println();
 		}
 	}
