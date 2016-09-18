@@ -1,11 +1,14 @@
 package main;
 
-import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import entities.GameCharacter;
 import entities.Player;
@@ -25,9 +28,9 @@ public class Main {
 	Texture t = new Texture("/res/penguin.png", 800, 800);
 	SpriteSheet tp = new SpriteSheet(t, 160, 160);
 
-	Player p1 = new Player(50, 0, 160, 160, tp.getTexture(0, 0), 1, 2, 450, 450);
+	Player p1 = new Player(50, 0, 120, 160, tp.getTexture(0, 0), 1, 2, 450, 450);
 	Texture bg = new Texture("/res/stage1.png", 960, 540);
-
+	SoundPlayer sp = new SoundPlayer();
 	private List<GameCharacter> characters = new ArrayList<GameCharacter>();
 
 	KeyListener mainListen = new KeyAdapter() {
@@ -51,6 +54,12 @@ public class Main {
 			}
 			if (in == KeyMap.p1BasicAttack) {
 				// p1.setYvel(-9);
+				try {
+					sp.play("/res/sfx/punch.wav");
+				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				for (int i = 0; i < 5; i++) {
 					p1.setT(tp.getTexture(i, 0));
 					p1.setX(p1.getX() + 5);
@@ -96,14 +105,12 @@ public class Main {
 		}
 	}
 
-	Texture reverse = tp.getReverse().getTexture(0, 0);
-
 	private void render(Screen screen) {
 		screen.drawTexture(0, 0, bg);
 		screen.drawTexture(p1.getX(), p1.getY(), p1.getTexture());
-		//screen.drawRect(0, 500, 500, 1, 0x000000);
-		//screen.drawRect(50, 50, 256, 31, 0);
-		screen.fillRect(51, 51, 255, 30, 0);
+		// screen.drawRect(0, 500, 500, 1, 0x000000);
+		// screen.drawRect(50, 50, 256, 31, 0);
+		screen.fillRect(51, 51, 255, 30, 0x000000);
 	}
 
 	private void loadCharacters() {

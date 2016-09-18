@@ -41,7 +41,7 @@ public class Window extends Canvas {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setFocusable(true);
-		
+
 		init();
 	}
 
@@ -58,17 +58,23 @@ public class Window extends Canvas {
 	public void show() {
 		frame.setVisible(true);
 	}
+
 	/**
 	 * Gets the screen of the window
+	 * 
 	 * @return Screen
 	 */
 	public Screen getScreen() {
 		return screen;
 	}
+
 	/**
 	 * Sets window size
-	 * @param width Width of window
-	 * @param height Height of window
+	 * 
+	 * @param width
+	 *            Width of window
+	 * @param height
+	 *            Height of window
 	 */
 	public void setWindowSize(int width, int height) {
 		setSize(width, height);
@@ -86,6 +92,7 @@ public class Window extends Canvas {
 		}
 		return true;
 	}
+
 	/**
 	 * Update graphics
 	 */

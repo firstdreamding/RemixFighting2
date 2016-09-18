@@ -39,6 +39,8 @@ public class Player extends Entity {
 	}
 
 	public void update() {
+		if(x<0){x=0;}
+		if(x>960-w){x=960-w;}
 		x = x + xvel;
 		y = y + yvel;
 		if (!inAir) {
