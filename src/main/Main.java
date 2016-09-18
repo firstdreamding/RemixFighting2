@@ -13,7 +13,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import entities.GameCharacter;
 import entities.Player;
 import graphics.Screen;
-import graphics.SpriteSheet;
 import graphics.Texture;
 import graphics.Window;
 import physics.Gravity;
@@ -25,11 +24,8 @@ public class Main {
 
 	}
 
-	Texture t = new Texture("/res/penguin.png", 800, 800);
-	SpriteSheet tp = new SpriteSheet(t, 160, 160);
-
-	Player p1 = new Player(50, 0, 120, 160, tp.getTexture(0, 0), 1, 2, 600, 450);
-	Texture bg = new Texture("/res/stage1.png", 960, 540);
+	Player p1;
+	Texture bg = new Texture("/res/sprites/stage1.png", 960, 540);
 	SoundPlayer sp = new SoundPlayer();
 	private List<GameCharacter> characters = new ArrayList<GameCharacter>();
 
@@ -50,8 +46,8 @@ public class Main {
 				p1.setDir(-1);
 				p1.setXvel(-10);
 			} else if (in == KeyMap.p1BasicAttack) {
-				if (now > p1.getLastAttacked() + p1.getJabLength()) {
-				
+				if (now > p1.getLastAttacked() + p1.getJabLag()) {
+
 					p1.setLastAttacked(now);
 					try {
 						sp.play("/res/sfx/punch.wav");
@@ -60,13 +56,13 @@ public class Main {
 						e1.printStackTrace();
 					}
 					for (int i = 0; i < 5; i++) {
-						p1.setT(tp.getTexture(i, 0));
+						p1.setT(i, 0);
 						p1.setX(p1.getX() + 5);
 						pause(40);
 					}
 					pause(50);
 					for (int i = 4; i >= 0; i--) {
-						p1.setT(tp.getTexture(i, 0));
+						p1.setT(i, 0);
 						p1.setX(p1.getX() - 5);
 						pause(40);
 					}
@@ -151,6 +147,7 @@ public class Main {
 		Gravity g = new Gravity();
 		loadCharacters();
 		printCharacters();
+		p1 = new Player(1, 50, 0, 120, 160, characters.get(0));
 		int dx = (int) (1000 / 60);
 		g.addEntity(p1);
 		while (true) {
