@@ -1,0 +1,10 @@
+/res/
+/main/
+/entities/
+/graphics/
+<<<<<<< Updated upstream:bin/.gitignore
+=======
+/main/
+/physics/
+/res/
+>>>>>>> Stashed changes:.metadata/.plugins/org.eclipse.core.resources/.history/a8/8094fa2df47c001614bb81b00f1ab482
