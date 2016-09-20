@@ -10,7 +10,7 @@ public class GameCharacter {
 
 	public String name;
 	public int attackStrength, defenseStrength, health, speed, jumps, jabLag, jumpLag, sheetW, sheetH, sheetDivX,
-			sheetDivY;
+			sheetDivY, kickDamage, jabDamage, kickLag;
 	public SpriteSheet sheet;
 	public Texture t;
 
@@ -43,6 +43,10 @@ public class GameCharacter {
 		jumps = toInt(lines.get(9));
 		jabLag = toInt(lines.get(10));
 		jumpLag = toInt(lines.get(11));
+		kickLag = toInt(lines.get(12));
+		jabDamage = toInt(lines.get(13));
+		kickDamage = toInt(lines.get(14));
+		
 
 	}
 

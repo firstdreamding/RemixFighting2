@@ -28,6 +28,7 @@ public class Main {
 	Texture bg = new Texture("/res/sprites/stage1.png", 960, 540);
 	SoundPlayer sp = new SoundPlayer();
 	private List<GameCharacter> characters = new ArrayList<GameCharacter>();
+	Texture healthPx = new Texture("/res/sprites/RedPixel.png", 350, 25);
 
 	KeyListener mainListen = new KeyAdapter() {
 		@Override
@@ -38,14 +39,35 @@ public class Main {
 			if (in == KeyMap.p1Up) {
 				if (p1.getJumps() > 0 && now > p1.getLastJumped() + p1.getJumpLength()) {
 					p1.jump(9);
+					p1.setLastJumped(now);
+					for (int i = 2; i >= 0; i--) {
+						p1.setT(i,1);
+						pause(40);
+					}
+					for (int i = 0; i < 5; i++) {
+						p1.setT(i, 1);
+						pause(30);
+					}
 				}
 			} else if (in == KeyMap.p1Right) {
 				p1.setDir(1);
-				p1.setXvel(10);
+				p1.setXvel(p1.moveSpeed);
 			} else if (in == KeyMap.p1Left) {
 				p1.setDir(-1);
-				p1.setXvel(-10);
-			} else if (in == KeyMap.p1BasicAttack) {
+				p1.setXvel(-p1.moveSpeed);
+			} else if (in == KeyMap.p1Kick){
+				for (int i = 0; i < 5; i++) {
+					p1.setT(i, 2);
+					p1.setX(p1.getX() + 15*p1.dir);
+					pause(50);
+				}
+				pause(50);
+				for (int i = 4; i >= 0; i--) {
+					p1.setT(i, 2);
+					pause(50);
+				}
+			}
+			else if (in == KeyMap.p1Jab) {
 				if (now > p1.getLastAttacked() + p1.getJabLag()) {
 
 					p1.setLastAttacked(now);
@@ -67,7 +89,7 @@ public class Main {
 						pause(40);
 					}
 				}
-			} else if (in == KeyMap.p1SpecialAttack) {
+			} else if (in == KeyMap.p1Special) {
 				try {
 					sp.play("/res/sfx/star.wav");
 				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
@@ -111,7 +133,9 @@ public class Main {
 		screen.drawTexture(p1.getX(), p1.getY(), p1.getTexture());
 		// screen.drawRect(0, 500, 500, 1, 0x000000);
 		// screen.drawRect(50, 50, 256, 31, 0);
-		screen.fillRect(51, 51, 255, 30, 0x000000);
+		//screen.fillRect(51, 51, 255, 30, 0x000000);
+		//
+		screen.drawTexture(25, 25, healthPx);
 	}
 
 	private void loadCharacters() {
