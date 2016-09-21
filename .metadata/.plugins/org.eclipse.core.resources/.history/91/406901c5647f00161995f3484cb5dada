@@ -13,12 +13,11 @@ public class Player extends Entity {
 	public long lastAttacked = 0;
 	public long lastJumped = 0;
 	public int dir;
-	public GameCharacter character;
+	private GameCharacter character;
 	private int playerID;
 	public int jabLag;
 	public int jumpLag;
 	public int moveSpeed;
-	public String name;
 	public SpriteSheet sheet;
 	private Map<String, Integer> keys;
 
@@ -44,7 +43,6 @@ public class Player extends Entity {
 		jabLag = character.jabLag;
 		sheet = character.sheet;
 		moveSpeed=character.speed;
-		name = character.name;
 		// TODO Auto-generated constructor stub
 	}
 

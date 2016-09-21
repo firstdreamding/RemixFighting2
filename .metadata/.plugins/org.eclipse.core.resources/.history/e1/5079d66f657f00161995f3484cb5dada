@@ -133,9 +133,10 @@ public class Main {
 		screen.drawTexture(p1.getX(), p1.getY(), p1.getTexture());
 		// screen.drawRect(0, 500, 500, 1, 0x000000);
 		// screen.drawRect(50, 50, 256, 31, 0);
+		//screen.fillRect(51, 51, 255, 30, 0x000000);
 		//
 		screen.drawTexture(25, 25, healthPx);
-		screen.drawString(p1.name, 40, 45);
+		screen.drawString(p1.name, 30, 40);
 	}
 
 	private void loadCharacters() {

@@ -136,7 +136,7 @@ public class Main {
 		//
 		screen.drawTexture(25, 25, healthPx);
 		screen.drawString(p1.name, 40, 45);
-	}
+ 	}
 
 	private void loadCharacters() {
 		String basePath = "src/res/characters/";

@@ -136,6 +136,7 @@ public class Main {
 		//
 		screen.drawTexture(25, 25, healthPx);
 		screen.drawString(p1.name, 40, 45);
+		screen.fillRect(25, 25, 255, 30, 0x000000);
 	}
 
 	private void loadCharacters() {
