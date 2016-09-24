@@ -17,6 +17,7 @@ public class Player extends Entity {
 	private int playerID;
 	public int jabLag;
 	public int jumpLag;
+	public int kickLag;
 	public int moveSpeed;
 	public String name;
 	public SpriteSheet sheet;
@@ -29,22 +30,26 @@ public class Player extends Entity {
 		keys = KeyMap.getKeyMapping(playerID);
 	}
 
-	public Player(int pid, int x, int y, int w, int h, GameCharacter gc) {
-		super(x, y, w, h, gc.sheet.getTexture(0, 0));
+	public Player(int pid, int x, int y, GameCharacter gc) {
+		super(x, y, gc.width, gc.height, gc.sheet.getTexture(0, 0));
 		if (pid == 1) {
 			dir = 1;
 		} else {
 			dir = -1;
 		}
 		playerID = pid;
+		kickLag = gc.kickLag;
 		character = gc;
 		this.totalJumps = character.jumps;
 		jumps = totalJumps;
 		jumpLag = character.jumpLag;
 		jabLag = character.jabLag;
 		sheet = character.sheet;
-		moveSpeed=character.speed;
+		moveSpeed = character.speed;
 		name = character.name;
+		w=gc.width;
+		h=gc.height;
+		health=gc.health;
 		// TODO Auto-generated constructor stub
 	}
 

@@ -11,8 +11,12 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import entities.GameCharacter;
+import entities.Hitbox;
+import entities.HitboxController;
+import entities.Hurtbox;
 import entities.Player;
 import graphics.Screen;
+import graphics.SpriteSheet;
 import graphics.Texture;
 import graphics.Window;
 import physics.Gravity;
@@ -29,7 +33,11 @@ public class Main {
 	SoundPlayer sp = new SoundPlayer();
 	private List<GameCharacter> characters = new ArrayList<GameCharacter>();
 	Texture healthPx = new Texture("/res/sprites/RedPixel.png", 350, 25);
-
+	int timepass = 0;
+	Texture snow = new Texture("/res/sprites/snowflakesheet.png", 14100, 540);
+	SpriteSheet snowSheet = new SpriteSheet(snow, 960, 540);
+	public int snowY = 0;
+	HitboxController hbc = new HitboxController();
 	KeyListener mainListen = new KeyAdapter() {
 		@Override
 		public void keyPressed(KeyEvent e) {
@@ -41,7 +49,7 @@ public class Main {
 					p1.jump(9);
 					p1.setLastJumped(now);
 					for (int i = 2; i >= 0; i--) {
-						p1.setT(i,1);
+						p1.setT(i, 1);
 						pause(40);
 					}
 					for (int i = 0; i < 5; i++) {
@@ -55,19 +63,21 @@ public class Main {
 			} else if (in == KeyMap.p1Left) {
 				p1.setDir(-1);
 				p1.setXvel(-p1.moveSpeed);
-			} else if (in == KeyMap.p1Kick){
-				for (int i = 0; i < 5; i++) {
-					p1.setT(i, 2);
-					p1.setX(p1.getX() + 15*p1.dir);
+			} else if (in == KeyMap.p1Kick) {
+				if (now - p1.lastAttacked > p1.kickLag) {
+					p1.setLastAttacked(now);
+					for (int i = 0; i < 5; i++) {
+						p1.setT(i, 2);
+						p1.setX(p1.getX() + 15 * p1.dir);
+						pause(50);
+					}
 					pause(50);
+					for (int i = 4; i >= 0; i--) {
+						p1.setT(i, 2);
+						pause(50);
+					}
 				}
-				pause(50);
-				for (int i = 4; i >= 0; i--) {
-					p1.setT(i, 2);
-					pause(50);
-				}
-			}
-			else if (in == KeyMap.p1Jab) {
+			} else if (in == KeyMap.p1Jab) {
 				if (now > p1.getLastAttacked() + p1.getJabLag()) {
 
 					p1.setLastAttacked(now);
@@ -127,15 +137,24 @@ public class Main {
 			e1.printStackTrace();
 		}
 	}
-
+	
 	private void render(Screen screen) {
 		screen.drawTexture(0, 0, bg);
-		screen.drawTexture(p1.getX(), p1.getY(), p1.getTexture());
-		// screen.drawRect(0, 500, 500, 1, 0x000000);
-		// screen.drawRect(50, 50, 256, 31, 0);
-		//
 		screen.drawTexture(25, 25, healthPx);
 		screen.drawString(p1.name, 40, 45);
+		for(Hurtbox h:hbc.getHurtboxes()){
+			screen.drawRect(h.x, h.y, h.width, h.height, 0x0000FF);
+		}
+		for(Hitbox hit:hbc.getHitboxes()){
+			screen.drawRect(hit.x, hit.y, hit.width,hit.height, 0xff0000);
+			
+		}
+		if (timepass/60 >= 14)
+			timepass = 0;
+		screen.drawTexture(0, 0, snowSheet.getTexture(timepass / 60, 0));
+		timepass++;
+		screen.drawTexture(p1.getX(), p1.getY(), p1.getTexture());
+		 
 	}
 
 	private void loadCharacters() {
@@ -160,8 +179,9 @@ public class Main {
 			System.out.println();
 		}
 	}
-
+	Hurtbox hb;
 	private void loop() throws InterruptedException {
+		
 		KeyMap.init();
 
 		Window window = new Window("Game", 960, 540);
@@ -171,13 +191,18 @@ public class Main {
 		Gravity g = new Gravity();
 		loadCharacters();
 		printCharacters();
-		p1 = new Player(1, 50, 0, 120, 160, characters.get(0));
+		p1 = new Player(1, 50, 0,characters.get(0));
+		hb=new Hurtbox(p1);
+		hbc.addhurtbox(hb);
+		hbc.addHitbox(new Hitbox(10,300,300,50,50,0,1000));
+		System.out.println(p1.health);
 		int dx = (int) (1000 / 60);
 		g.addEntity(p1);
 		while (true) {
 
 			// screen = window.getScreen();
 			p1.update();
+			hbc.update();
 			screen.clear(0xffffff);
 			g.update();
 			this.render(screen);
@@ -189,9 +214,9 @@ public class Main {
 
 		}
 	}
-
+	
 	public static void main(String[] args) throws Exception {
-
+		
 		Main game = new Main();
 		game.loop();
 

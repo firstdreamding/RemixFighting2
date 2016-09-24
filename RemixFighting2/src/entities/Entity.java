@@ -7,7 +7,7 @@ public class Entity {
 	public int x, y, xvel, yvel = 0;
 	public Texture sprite;
 	public int w, h;
-	public int health = 100;
+	public int health;
 	public boolean inAir=false;
 	/**
 	 * Constructor for entity
@@ -40,10 +40,10 @@ public class Entity {
 	 *            Amount added: can be negative.
 	 * 
 	 */
-	public void addHealth(int i) {
+	public void changeHealth(int i) {
 		health += i;
 	}
-
+	
 	public Texture getTexture() {
 		return sprite;
 	}

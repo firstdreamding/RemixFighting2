@@ -80,7 +80,6 @@ public class Texture {
 			width = w;
 			height = h;
 			pixels = new int[width * height];
-			System.out.println(pixels.length);
 			image.getRGB(0, 0, width, height, pixels, 0, width);
 			img = image;
 		} catch (IOException e) {

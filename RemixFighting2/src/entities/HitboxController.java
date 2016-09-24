@@ -6,6 +6,7 @@ public class HitboxController {
 	private ArrayList<Hitbox> hitboxes = new ArrayList<>();
 	private ArrayList<Hurtbox> hurtboxes = new ArrayList<>();
 	private ArrayList<Hitbox> removeThese = new ArrayList<>();
+	 
 	/**
 	 * Checks if hitboxes and hurtboxes are intersecting
 	 * 
@@ -18,12 +19,14 @@ public class HitboxController {
 			hitboxes.remove(removeThese.get(0));
 			removeThese.remove(0);
 		}
-		for (Hitbox h : hitboxes) {
-			for (Hurtbox hurt : hurtboxes) {
-
-				if (h.intersects(hurt)) {
-					hurt.getEntity().addHealth(-1 * h.dmg);
-					removeThese.add(h);
+		for (Hurtbox hurt : hurtboxes) {
+			hurt.update();
+			for (Hitbox hit : hitboxes) {
+				
+				if (hit.intersects(hurt)) {
+					hurt.getEntity().changeHealth(-1 * hit.dmg);
+					System.out.println(hurt.getE().health);
+					removeThese.add(hit);
 				}
 
 			}
@@ -46,5 +49,13 @@ public class HitboxController {
 
 	public void removehurtbox(Hurtbox b) {
 		hurtboxes.remove(b);
+	}
+
+	public ArrayList<Hitbox> getHitboxes() {
+		return hitboxes;
+	}
+
+	public ArrayList<Hurtbox> getHurtboxes() {
+		return hurtboxes;
 	}
 }
