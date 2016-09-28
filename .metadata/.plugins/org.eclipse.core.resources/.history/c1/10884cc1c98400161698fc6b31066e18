@@ -1,0 +1,64 @@
+package entities;
+
+import java.util.ArrayList;
+
+public class HitboxController {
+	private ArrayList<Hitbox> hitboxes = new ArrayList<>();
+	private ArrayList<Hurtbox> hurtboxes = new ArrayList<>();
+	private ArrayList<Hitbox> removeThese = new ArrayList<>();
+	 
+	/**
+	 * Checks if hitboxes and hurtboxes are intersecting
+	 * 
+	 */
+	int removeSize;
+	long now;
+	public void update() {
+		now=System.currentTimeMillis();
+		removeSize = removeThese.size();
+		for (int i = 0; i < removeSize; i++) {
+			hitboxes.remove(removeThese.get(0));
+			removeThese.remove(0);
+		}
+		for (Hurtbox hurt : hurtboxes) {
+			hurt.update();
+			for (Hitbox hit : hitboxes) {
+				if(now>hit.duration+hit.timeStarted){
+					removeThese.add(hit);
+				}
+				else if (hit.intersects(hurt)) {
+					hurt.getEntity().changeHealth(-1 * hit.dmg);
+					System.out.println(hurt.getEntity().health);
+					removeThese.add(hit);
+				}
+
+			}
+
+		}
+
+	}
+
+	public void addHitbox(Hitbox b) {
+		hitboxes.add(b);
+	}
+
+	public void removehurtbox(Hitbox b) {
+		hurtboxes.remove(b);
+	}
+
+	public void addhurtbox(Hurtbox b) {
+		hurtboxes.add(b);
+	}
+
+	public void removehurtbox(Hurtbox b) {
+		hurtboxes.remove(b);
+	}
+
+	public ArrayList<Hitbox> getHitboxes() {
+		return hitboxes;
+	}
+
+	public ArrayList<Hurtbox> getHurtboxes() {
+		return hurtboxes;
+	}
+}

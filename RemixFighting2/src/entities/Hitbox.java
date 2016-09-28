@@ -7,18 +7,23 @@ public class Hitbox extends Rectangle {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public int dmg,knockback;
+	public int dmg, knockback;
 	public long duration;
 	public long timeStarted;
-	/** Hitbox entity
+
+	/**
+	 * Hitbox entity
 	 * 
-	 * @param dmg Damage dealt by hitbox
-	 
-	 * @param knockback Knockback of hitbox
-	
-	 * @param duration Duration hitbox lasts till self-destruct
+	 * @param dmg
+	 *            Damage dealt by hitbox
+	 *
+	 * @param knockback
+	 *            Knockback of hitbox
+	 *
+	 * @param duration
+	 *            Duration hitbox lasts till self-destruct
 	 */
-	public Hitbox(int dmg, int x,int y,int w,int h,int knockback, int duration) {
+	public Hitbox(int dmg, int x, int y, int w, int h, int knockback, int duration) {
 		this.dmg = dmg;
 		this.width = w;
 		this.height = h;

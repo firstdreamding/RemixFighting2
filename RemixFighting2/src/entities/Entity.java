@@ -40,9 +40,7 @@ public class Entity {
 	 *            Amount added: can be negative.
 	 * 
 	 */
-	public void changeHealth(int i) {
-		health += i;
-	}
+	
 	
 	public Texture getTexture() {
 		return sprite;
@@ -136,5 +134,10 @@ public class Entity {
 
 	public void setInAir(boolean inAir) {
 		this.inAir = inAir;
+	}
+
+	public void changeHealth(int i) {
+		health+=i;
+		
 	}
 }

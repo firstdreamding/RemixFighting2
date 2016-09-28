@@ -13,13 +13,18 @@ public class FileUtils {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line;
+			String f1;
 			while ((line = br.readLine()) != null) {
-				lines.add(line);
+				f1=line.substring(0, 1);
+				if (!f1.equals("/")) {
+					lines.add(line);
+				}
 			}
+			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return lines;
 	}
-	
+
 }

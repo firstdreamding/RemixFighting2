@@ -137,24 +137,24 @@ public class Main {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	private void render(Screen screen) {
 		screen.drawTexture(0, 0, bg);
-		screen.drawTexture(25, 25, healthPx);
 		screen.drawString(p1.name, 40, 45);
-		for(Hurtbox h:hbc.getHurtboxes()){
+		for (Hurtbox h : hbc.getHurtboxes(1)) {
 			screen.drawRect(h.x, h.y, h.width, h.height, 0x0000FF);
 		}
-		for(Hitbox hit:hbc.getHitboxes()){
-			screen.drawRect(hit.x, hit.y, hit.width,hit.height, 0xff0000);
-			
+		for (Hitbox hit : hbc.getHitboxes(2)) {
+			screen.drawRect(hit.x, hit.y, hit.width, hit.height, 0xff0000);
 		}
-		if (timepass/60 >= 14)
+		if (timepass / 60 >= 14)
 			timepass = 0;
 		screen.drawTexture(0, 0, snowSheet.getTexture(timepass / 60, 0));
 		timepass++;
+		
+		//screen.drawTexture(25, 25, p1.getHealthPx);
 		screen.drawTexture(p1.getX(), p1.getY(), p1.getTexture());
-		 
+
 	}
 
 	private void loadCharacters() {
@@ -176,12 +176,15 @@ public class Main {
 			System.out.println("\tHealth: " + c.health);
 			System.out.println("\tJab lag: " + c.jabLag);
 			System.out.println("\tJump lag: " + c.jumpLag);
+			System.out.println("\tJab Damage: "+c.jabDamage);
 			System.out.println();
 		}
 	}
+
 	Hurtbox hb;
+
 	private void loop() throws InterruptedException {
-		
+
 		KeyMap.init();
 
 		Window window = new Window("Game", 960, 540);
@@ -191,32 +194,48 @@ public class Main {
 		Gravity g = new Gravity();
 		loadCharacters();
 		printCharacters();
-		p1 = new Player(1, 50, 0,characters.get(0));
-		hb=new Hurtbox(p1);
-		hbc.addhurtbox(hb);
-		hbc.addHitbox(new Hitbox(10,300,300,50,50,0,1000));
+		p1 = new Player(1, 50, 0, characters.get(0));
+		hb = new Hurtbox(p1);
+		hbc.addhurtbox(hb,1);
+		hbc.addHitbox(new Hitbox(10, 300, 300, 50, 50, 0, 5000),2);
 		System.out.println(p1.health);
-		int dx = (int) (1000 / 60);
 		g.addEntity(p1);
+
+		long timeNow = System.currentTimeMillis();
+		long timeLastRender = System.currentTimeMillis();
+		double fps = 1000.0/60.0;
+		int lag = 0;
+
 		while (true) {
 
 			// screen = window.getScreen();
-			p1.update();
-			hbc.update();
-			screen.clear(0xffffff);
-			g.update();
-			this.render(screen);
 
-			window.update();
+			timeNow = System.currentTimeMillis();
+
+			lag += (timeNow - timeLastRender) / fps;
+
+			
+			if (lag >= 1) {
+				p1.update();
+				hbc.update();
+				
+				window.update();
+				screen.clear(0xffffff);
+				g.update();
+				
+				this.render(screen);
+				lag--;
+				timeLastRender = System.currentTimeMillis();
+				
+			}
+
 			// p1.setY(535);
-
-			Thread.sleep(dx);
 
 		}
 	}
-	
+
 	public static void main(String[] args) throws Exception {
-		
+
 		Main game = new Main();
 		game.loop();
 

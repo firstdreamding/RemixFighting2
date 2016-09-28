@@ -30,9 +30,8 @@ public class Hurtbox extends Rectangle {
 	}
 	public void update(){
 		x=e.getX();
-		y=e.getY();
+		y=e.getY()+8;
 		
 		
 	}
-	public Entity getE(){return e;}
 }
